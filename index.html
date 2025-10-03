@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App - Get Real-time Weather Data</title>
+    <meta name="description" content="Get current weather information for any city. ">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <div class="container">
+            <!-- Header -->
+            <header class="header">
+                <h1 class="title">🌤️ Sora.Senpai</h1>
+                <p class="subtitle">Get current weather information for any city around the world</p>
+            </header>
+
+            <!-- Search Section -->
+            <section class="search-section">
+                <div class="search-card">
+                    <form id="search-form" class="search-form">
+                        <div class="input-group">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <input 
+                                type="text" 
+                                id="city-input" 
+                                placeholder="Enter city name..." 
+                                required
+                                autocomplete="off"
+                            >
+                        </div>
+                        <button type="submit" id="search-btn" class="search-btn">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                            <span class="btn-text">Get Weather</span>
+                            <div class="loading-spinner hidden">
+                                <div class="spinner"></div>
+                                <span>Searching...</span>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Weather Display -->
+            <section class="weather-section">
+                <!-- Weather Cards -->
+                <div id="weather-display" class="weather-display hidden">
+                    <div class="weather-card main-weather">
+                        <div class="weather-header">
+                            <h2 id="location-name"></h2>
+                            <p id="weather-description"></p>
+                        </div>
+                        <div class="weather-main">
+                            <div class="weather-icon" id="weather-emoji"></div>
+                            <div class="temperature-info">
+                                <div class="temperature" id="temperature">--°</div>
+                                <div class="feels-like" id="feels-like">Feels like --°C</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="weather-details">
+                        <div class="detail-card">
+                            <div class="detail-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5Z"></path>
+                                </svg>
+                            </div>
+                            <div class="detail-info">
+                                <div class="detail-label">Humidity</div>
+                                <div class="detail-value" id="humidity">--%</div>
+                            </div>
+                        </div>
+
+                        <div class="detail-card">
+                            <div class="detail-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"></path>
+                                    <path d="M9.6 4.6A2 2 0 1 1 11 8H2"></path>
+                                    <path d="M12.6 19.4A2 2 0 1 0 14 16H2"></path>
+                                </svg>
+                            </div>
+                            <div class="detail-info">
+                                <div class="detail-label">Wind</div>
+                                <div class="detail-value" id="wind-speed">-- km/h</div>
+                            </div>
+                        </div>
+
+                        <div class="detail-card full-width">
+                            <div class="detail-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"></path>
+                                </svg>
+                            </div>
+                            <div class="detail-info">
+                                <div class="detail-label">Condition</div>
+                                <div class="detail-value" id="condition">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Display -->
+                <div id="error-display" class="error-display hidden">
+                    <div class="error-card">
+                        <div class="error-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg>
+                        </div>
+                        <div class="error-content">
+                            <h3>Oops! Something went wrong</h3>
+                            <p id="error-message">An error occurred while fetching weather data.</p>
+                        </div>
+                        <button id="retry-btn" class="retry-btn hidden">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 4v6h-6"></path>
+                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                            </svg>
+                            Try Again
+                        </button>
+                        
+                    </div>
+                </div>
+
+                <!-- Quick Access Cities -->
+                <div id="quick-cities" class="quick-cities">
+                    <p class="quick-cities-label">Popular cities:</p>
+                    <div class="cities-grid">
+                        <button class="city-btn" data-city="London">London</button>
+                        <button class="city-btn" data-city="New York">New York</button>
+                        <button class="city-btn" data-city="Tokyo">Tokyo</button>
+                        <button class="city-btn" data-city="Paris">Paris</button>
+                        <button class="city-btn" data-city="Sydney">Sydney</button>
+                    </div>
+                </div>
+
+                <!-- Initial Message -->
+                <div id="initial-message" class="initial-message">
+                    <p> Search for a city to get started!</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-content">
+            <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 12l2 2 4-4"></path>
+                <circle cx="12" cy="12" r="10"></circle>
+            </svg>
+            <span id="toast-message">Weather updated successfully!</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
