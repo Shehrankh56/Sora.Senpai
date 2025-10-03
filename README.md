@@ -26,7 +26,7 @@ Clone the Repository:
 
 Bash
 
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/Shehrankh56/Sora.Senpai.git
 cd your-repo-name
 Get an API Key:
 
