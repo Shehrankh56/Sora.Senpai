@@ -1,6 +1,6 @@
 class WeatherApp {
   constructor() {
-    this.API_KEY = '1240fa2393819bec1ecdc32508b963ae'; 
+    this.API_KEY = 'Add your key here'; 
     this.BASE_URL = 'https://api.openweathermap.org/data/2.5';
     this.lastSearchedCity = '';
     
